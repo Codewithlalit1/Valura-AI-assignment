@@ -1,0 +1,54 @@
+{
+  "conversation_id": "conv_topic_switch_001",
+  "description": "User starts with market research on AAPL then pivots mid-conversation to portfolio health. Classifier must drop the AAPL ticker context on the pivot and switch agent.",
+  "turns": [
+    {
+      "role": "user",
+      "content": "What's Apple's stock price right now?"
+    },
+    {
+      "role": "assistant",
+      "content": "Apple (AAPL) is currently trading at $178.50, up 0.8% on the day. The company's market cap sits around $2.75 trillion, making it the largest publicly listed company by market capitalisation. Anything specific about Apple you'd like to dig into?"
+    },
+    {
+      "role": "user",
+      "content": "How has it been performing this month?"
+    },
+    {
+      "role": "assistant",
+      "content": "AAPL is up roughly 4.2% over the past month, outpacing the Nasdaq Composite which gained about 2.1% in the same window. The move has been driven by stronger-than-expected iPhone upgrade cycle data and continued double-digit growth in the Services segment."
+    },
+    {
+      "role": "user",
+      "content": "What's Apple's P/E ratio?"
+    },
+    {
+      "role": "assistant",
+      "content": "Apple trades at a trailing P/E of approximately 28.5x and a forward P/E of around 26.8x based on consensus earnings estimates. That's a modest premium to the S&P 500 average (~22x) but below the broader technology sector median (~35x), reflecting Apple's relatively predictable earnings stream."
+    },
+    {
+      "role": "user",
+      "content": "Okay, enough about Apple. How is my own portfolio actually doing?"
+    },
+    {
+      "role": "assistant",
+      "content": "Switching over to your portfolio: you're up 12.3% year-to-date. Your strongest contributors are NVDA (+112% YTD, adding ~6.8 percentage points) and META (+42% YTD). Your weakest position is TSLA, which is roughly flat and is dragging slightly. Overall you're tracking ahead of the S&P 500 (+9.1% YTD) but behind the Nasdaq (+17.4% YTD)."
+    },
+    {
+      "role": "user",
+      "content": "Am I too concentrated in tech?"
+    },
+    {
+      "role": "assistant",
+      "content": "Yes — approximately 78% of your portfolio is allocated to the technology sector. That's well above the 20–30% range typical in a balanced growth portfolio. Your top three positions alone (NVDA, AAPL, MSFT) account for 64% of total value. This concentration amplifies upside in bull markets but leaves you exposed to significant drawdowns if sentiment turns on the sector."
+    },
+    {
+      "role": "user",
+      "content": "What should I do to rebalance?"
+    },
+    {
+      "role": "assistant",
+      "content": "One straightforward path: trim your NVDA position — it has appreciated the most and now represents roughly 32% of the portfolio on its own. Redirecting proceeds into broad-market ETFs (e.g. VTI for US, VXUS for international) or under-represented sectors like healthcare, financials, or consumer staples would bring your tech weighting closer to 40–50% without fully abandoning your conviction. This is not personalised financial advice — consider speaking with a licensed adviser before making significant changes.\n\nDisclaimer: This is for informational purposes only and does not constitute investment advice."
+    }
+  ]
+}

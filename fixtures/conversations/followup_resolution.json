@@ -1,0 +1,46 @@
+{
+  "conversation_id": "conv_followup_001",
+  "description": "Tests pronoun and entity carryover across turns. 'What's its P/E?' must resolve 'its' to TSLA from the prior turn. 'How does that compare to Ford?' must carry forward both the TSLA P/E context and resolve 'that' without repeating the ticker name.",
+  "turns": [
+    {
+      "role": "user",
+      "content": "Tell me about Tesla."
+    },
+    {
+      "role": "assistant",
+      "content": "Tesla (TSLA) is an American electric vehicle and clean energy company headquartered in Austin, Texas. It designs and manufactures EVs, battery storage systems, and solar products. As of today TSLA is trading at ~$252, giving it a market cap of roughly $800 billion. It remains the global EV sales leader by revenue, though its market share has been narrowing as legacy automakers ramp up their own electric lineups."
+    },
+    {
+      "role": "user",
+      "content": "What's its P/E ratio?"
+    },
+    {
+      "role": "assistant",
+      "content": "Tesla's trailing twelve-month P/E ratio is approximately 68x, and its forward P/E (based on next year's consensus earnings estimate) is around 80x. These multiples are elevated relative to most industrial and automotive peers, reflecting market expectations of continued high growth in vehicle deliveries and the potential monetisation of its Full Self-Driving software and energy storage businesses."
+    },
+    {
+      "role": "user",
+      "content": "How does that compare to Ford?"
+    },
+    {
+      "role": "assistant",
+      "content": "Ford (F) trades at a trailing P/E of roughly 12x and a forward P/E of approximately 7x — substantially cheaper than Tesla on both metrics. Ford's lower multiple reflects its status as a mature, capital-intensive manufacturer with thin margins and cyclical earnings, whereas Tesla's premium captures growth expectations that Ford's business model doesn't carry. In short: Tesla is priced as a technology/growth company; Ford is priced as a legacy automaker."
+    },
+    {
+      "role": "user",
+      "content": "Which of the two would you say is the better long-term investment?"
+    },
+    {
+      "role": "assistant",
+      "content": "That depends heavily on your investment horizon and risk tolerance. Tesla offers higher potential upside if it successfully scales autonomous driving and energy storage, but its valuation leaves little margin for error — any earnings miss or growth slowdown tends to produce sharp drawdowns. Ford offers a margin of safety through its low valuation and dividend yield (~5%), but its upside is capped by the structural challenges facing legacy OEMs in the EV transition.\n\nIf you hold TSLA in your portfolio already, it's worth reviewing whether your current allocation reflects your conviction level versus the risk you're taking on.\n\nDisclaimer: This is for informational purposes only and does not constitute investment advice."
+    },
+    {
+      "role": "user",
+      "content": "Is Tesla in my portfolio right now?"
+    },
+    {
+      "role": "assistant",
+      "content": "Yes — you hold 20 shares of TSLA with an average cost of $250.00. At the current price of ~$252, your position is roughly at break-even, up about 0.9% or approximately $46 in absolute terms. TSLA currently represents around 2.3% of your total portfolio value."
+    }
+  ]
+}
