@@ -1,0 +1,14 @@
+{
+  "_note": "NVDA is ~93% of portfolio value at current prices — well above the 60% concentration threshold.",
+  "user_id": "usr_conc_002",
+  "name": "Sam Torres",
+  "kyc_status": "verified",
+  "risk_profile": "moderate",
+  "currency": "USD",
+  "portfolio": [
+    {"ticker": "NVDA", "quantity": 150, "avg_cost_usd": 220.00, "current_price_usd": 892.50},
+    {"ticker": "COST", "quantity": 8,   "avg_cost_usd": 680.00, "current_price_usd": 920.00},
+    {"ticker": "AAPL", "quantity": 10,  "avg_cost_usd": 150.00, "current_price_usd": 178.50},
+    {"ticker": "BND",  "quantity": 15,  "avg_cost_usd":  78.00, "current_price_usd":  73.80}
+  ]
+}

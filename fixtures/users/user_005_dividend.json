@@ -1,0 +1,16 @@
+{
+  "user_id": "usr_divd_005",
+  "name": "Eleanor Hayes",
+  "kyc_status": "verified",
+  "risk_profile": "conservative",
+  "currency": "USD",
+  "portfolio": [
+    {"ticker": "JNJ",  "quantity": 220, "avg_cost_usd": 142.80, "current_price_usd": 154.60},
+    {"ticker": "PG",   "quantity": 180, "avg_cost_usd":  92.40, "current_price_usd": 165.40},
+    {"ticker": "KO",   "quantity": 350, "avg_cost_usd":  45.20, "current_price_usd":  60.80},
+    {"ticker": "VYM",  "quantity": 280, "avg_cost_usd":  92.20, "current_price_usd": 122.40},
+    {"ticker": "SCHD", "quantity": 350, "avg_cost_usd":  68.40, "current_price_usd":  79.60},
+    {"ticker": "BND",  "quantity": 240, "avg_cost_usd":  82.10, "current_price_usd":  73.80},
+    {"ticker": "TLT",  "quantity": 180, "avg_cost_usd": 142.30, "current_price_usd":  91.40}
+  ]
+}

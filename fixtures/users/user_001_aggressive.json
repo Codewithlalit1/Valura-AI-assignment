@@ -1,0 +1,17 @@
+{
+  "user_id": "usr_aggr_001",
+  "name": "Jordan Kim",
+  "kyc_status": "verified",
+  "risk_profile": "aggressive",
+  "currency": "USD",
+  "portfolio": [
+    {"ticker": "NVDA",  "quantity": 50,  "avg_cost_usd": 420.00, "current_price_usd": 892.50},
+    {"ticker": "AAPL",  "quantity": 40,  "avg_cost_usd": 145.00, "current_price_usd": 178.50},
+    {"ticker": "MSFT",  "quantity": 30,  "avg_cost_usd": 310.00, "current_price_usd": 418.50},
+    {"ticker": "META",  "quantity": 25,  "avg_cost_usd": 305.00, "current_price_usd": 532.10},
+    {"ticker": "GOOGL", "quantity": 35,  "avg_cost_usd": 130.00, "current_price_usd": 175.80},
+    {"ticker": "AMZN",  "quantity": 28,  "avg_cost_usd": 140.00, "current_price_usd": 196.40},
+    {"ticker": "AMD",   "quantity": 60,  "avg_cost_usd": 115.00, "current_price_usd": 161.80},
+    {"ticker": "TSLA",  "quantity": 20,  "avg_cost_usd": 250.00, "current_price_usd": 252.30}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "_note": "avg_cost_usd and current_price_usd are USD-converted values. Exchange rates used: EUR/USD 1.083, GBP/USD 1.274, JPY/USD 0.00667 (150 JPY/USD). HSBA.L quoted in GBP (not pence).",
+  "user_id": "usr_glob_003",
+  "name": "Priya Sharma",
+  "kyc_status": "verified",
+  "risk_profile": "moderate",
+  "currency": "USD",
+  "portfolio": [
+    {"ticker": "AAPL",    "quantity": 40,  "avg_cost_usd": 158.00, "current_price_usd": 178.50},
+    {"ticker": "VOO",     "quantity": 15,  "avg_cost_usd": 412.00, "current_price_usd": 474.80},
+    {"ticker": "ASML.AS", "quantity": 6,   "avg_cost_usd": 661.39, "current_price_usd": 912.00},
+    {"ticker": "HSBA.L",  "quantity": 250, "avg_cost_usd":   8.10, "current_price_usd":   8.55},
+    {"ticker": "7203.T",  "quantity": 200, "avg_cost_usd":  16.53, "current_price_usd":  17.40}
+  ]
+}
