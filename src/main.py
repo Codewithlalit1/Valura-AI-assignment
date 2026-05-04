@@ -39,6 +39,7 @@ from src.classifier.classifier import IntentClassifier
 from src.router import AgentRouter, create_router
 from src.safety.guard import SafetyGuard
 from src.session.store import InMemorySessionStore, SessionStore
+from src.users import UserProfileLoader
 
 load_dotenv()
 
@@ -59,8 +60,6 @@ MODEL: str = os.getenv("MODEL_DEV", "gpt-4o-mini")
 # against runaway LLM calls or network hangs.
 _PIPELINE_TIMEOUT: float = 30.0
 
-_FIXTURES_USERS: Path = Path(__file__).parent.parent / "fixtures" / "users"
-
 
 # ---------------------------------------------------------------------------
 # Application lifecycle
@@ -70,11 +69,17 @@ _FIXTURES_USERS: Path = Path(__file__).parent.parent / "fixtures" / "users"
 @asynccontextmanager
 async def lifespan(app: FastAPI):  # noqa: ANN001
     """Initialise shared singletons once at startup; teardown on shutdown."""
+    user_loader = UserProfileLoader()
+    user_loader.load()
+    app.state.user_loader = user_loader
     app.state.safety_guard = SafetyGuard()
     app.state.classifier = IntentClassifier(model=MODEL)
     app.state.router = create_router(model=MODEL)
     app.state.session_store = InMemorySessionStore()
-    logger.info("Valura AI started — model=%s  timeout=%.0fs", MODEL, _PIPELINE_TIMEOUT)
+    logger.info(
+        "Valura AI started — model=%s  timeout=%.0fs  users=%d",
+        MODEL, _PIPELINE_TIMEOUT, user_loader.loaded_count,
+    )
     yield
     logger.info("Valura AI shutting down")
 
@@ -102,24 +107,9 @@ class QueryRequest(BaseModel):
 # ---------------------------------------------------------------------------
 
 
-def _load_user_profile(user_id: str) -> dict:
-    """
-    Resolve a user profile from the fixture store by user_id.
-
-    In production this would call the user-service API or query Postgres.
-    For the demo it scans the fixtures/users/ directory.
-
-    Falls back to a minimal profile (empty portfolio) if not found.
-    """
-    try:
-        for path in _FIXTURES_USERS.glob("*.json"):
-            with open(path, encoding="utf-8") as fh:
-                profile = json.load(fh)
-            if profile.get("user_id") == user_id:
-                return profile
-    except Exception as exc:
-        logger.warning("User profile lookup failed for %r: %s", user_id, exc)
-    return {"user_id": user_id, "portfolio": []}
+def _get_user_profile(request: Request, user_id: str) -> dict:
+    """Look up a user profile from the startup-loaded index (O(1), no I/O)."""
+    return request.app.state.user_loader.get_profile(user_id)
 
 
 def _blocked_event(category: str | None, message: str | None) -> str:
@@ -193,7 +183,7 @@ async def query_endpoint(body: QueryRequest, request: Request):
 
                 # ── 2. Load session context ───────────────────────────────
                 history = session_store.get_history(body.session_id)
-                user_profile = _load_user_profile(body.user_id)
+                user_profile = _get_user_profile(request, body.user_id)
 
                 # ── 3. Classify (sync call — run in thread pool) ──────────
                 classification = await asyncio.to_thread(

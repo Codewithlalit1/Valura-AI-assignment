@@ -100,7 +100,11 @@ async def client():
     """
     from src.classifier.classifier import IntentClassifier
     from src.router import create_router
+    from src.users import UserProfileLoader
 
+    user_loader = UserProfileLoader()
+    user_loader.load()
+    app.state.user_loader = user_loader
     app.state.safety_guard = SafetyGuard()
     app.state.classifier = IntentClassifier(model="gpt-4o-mini")
     app.state.router = create_router(model="gpt-4o-mini")
