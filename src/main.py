@@ -36,6 +36,7 @@ from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
 
 from src.classifier.classifier import IntentClassifier
+from src.llm import get_model, get_provider
 from src.router import AgentRouter, create_router
 from src.safety.guard import SafetyGuard
 from src.session.store import InMemorySessionStore, SessionStore
@@ -53,7 +54,7 @@ logger = logging.getLogger(__name__)
 # Configuration
 # ---------------------------------------------------------------------------
 
-MODEL: str = os.getenv("MODEL_DEV", "gpt-4o-mini")
+MODEL: str = get_model()
 
 # Hard upper bound for the full safety → classify → stream pipeline.
 # Chosen to be comfortably above the p95 target (< 6 s) while protecting
@@ -76,9 +77,15 @@ async def lifespan(app: FastAPI):  # noqa: ANN001
     app.state.classifier = IntentClassifier(model=MODEL)
     app.state.router = create_router(model=MODEL)
     app.state.session_store = InMemorySessionStore()
+    provider = get_provider()
+    if provider == "none":
+        logger.warning(
+            "No API key detected. Set OPENAI_API_KEY or GOOGLE_API_KEY in .env — "
+            "LLM calls will fail until a key is present."
+        )
     logger.info(
-        "Valura AI started — model=%s  timeout=%.0fs  users=%d",
-        MODEL, _PIPELINE_TIMEOUT, user_loader.loaded_count,
+        "Valura AI started — provider=%s  model=%s  timeout=%.0fs  users=%d",
+        provider, MODEL, _PIPELINE_TIMEOUT, user_loader.loaded_count,
     )
     yield
     logger.info("Valura AI shutting down")

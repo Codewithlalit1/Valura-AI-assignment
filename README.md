@@ -1,7 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/SHM9MYZJ)
 
 # Valura AI
-
+        
 Valura AI is a FastAPI microservice that acts as an AI co-investor for every user on the Valura wealth management platform. It accepts a natural-language query together with the user's profile and conversation history, classifies the intent with a single LLM call, routes the request to the appropriate specialist agent, and streams the response token-by-token over Server-Sent Events. The service is designed as an extensible spine: safety, classification, routing, and session persistence are fully wired; the `portfolio_health` agent is implemented end-to-end with live market data and structured LLM output; the remaining seven agents are registered as stubs that return structured `not_implemented` JSON, making each one a self-contained addition rather than a rewrite.
 
 ---

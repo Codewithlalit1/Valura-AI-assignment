@@ -27,6 +27,7 @@ from typing import AsyncGenerator, Optional
 
 import openai
 
+from src.llm import make_async_client
 from .calculations import (
     calculate_benchmark_comparison,
     calculate_concentration,
@@ -288,7 +289,7 @@ class PortfolioHealthAgent:
 
     def _get_client(self) -> openai.AsyncOpenAI:
         if self._client is None:
-            self._client = openai.AsyncOpenAI()
+            self._client = make_async_client()
         return self._client
 
 

@@ -18,6 +18,7 @@ from typing import Any, Optional
 
 import openai
 
+from src.llm import make_sync_client
 from .prompt import SYSTEM_PROMPT
 from .schema import (
     VALID_AGENTS,
@@ -99,7 +100,7 @@ class IntentClassifier:
 
     def _get_client(self) -> openai.OpenAI:
         if self._client is None:
-            self._client = openai.OpenAI()
+            self._client = make_sync_client()
         return self._client
 
     def _format_history(self, history: list[dict]) -> list[dict]:
