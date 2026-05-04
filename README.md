@@ -49,6 +49,63 @@ Tests must pass without an `OPENAI_API_KEY` set — mock the LLM. We will run `p
 
 ---
 
+## Latency Benchmark
+
+`scripts/benchmark.py` sends 20 sequential requests to the running local server
+and reports **p50 / p95** for two metrics:
+
+| Metric | Description |
+|---|---|
+| Time to first token (TTFT) | Wall-clock seconds from request dispatch to the first `data:` SSE line |
+| Total response time (TRT) | Wall-clock seconds from request dispatch to the last byte of the stream |
+
+**Steps:**
+
+```bash
+# 1. Start the server (needs OPENAI_API_KEY in .env)
+make run
+# or: uvicorn src.main:app --reload --port 8000
+
+# 2. In a second terminal, run the benchmark
+python scripts/benchmark.py
+```
+
+**Optional flags:**
+
+```bash
+# Change number of requests or target URL
+python scripts/benchmark.py --n 50 --url http://localhost:8000
+
+# Add a per-request table with a visual TRT bar chart
+python scripts/benchmark.py --verbose
+```
+
+**Example output:**
+
+```
+Valura AI — latency benchmark
+  URL   : http://localhost:8000/query
+  User  : usr_aggr_001
+  Query : Give me a full portfolio health check — concentration, performance…
+  N     : 20 sequential requests
+
+  [ 1/20] ttft= 0.843 s  trt= 3.241 s  chunks=  4
+  [ 2/20] ttft= 0.791 s  trt= 3.108 s  chunks=  4
+  ...
+
+  ──────────────────────────────────────────────────────────────
+  Completed: 20/20 requests succeeded
+
+  Metric                       p50       p95
+  ──────────────────────────   ──────────  ──────────
+  Time to first token         0.823s    1.104s
+  Total response time         3.195s    4.312s
+```
+
+> The benchmark requires a live server and a valid `OPENAI_API_KEY` — it is **not** a pytest test and is not run in CI.
+
+---
+
 ## Repository Structure
 
 When you submit, your repository must contain:
