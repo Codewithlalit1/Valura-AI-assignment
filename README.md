@@ -27,7 +27,7 @@ Client (HTTP POST /query)
 │                                                               │
 │  3. IntentClassifier.classify(query, history, profile)        │
 │     └─ one LLM call (JSON mode) in a thread pool              │
-│        returns: intent, agent, entities, safety_verdict        │
+│        returns: intent, agent, entities, safety_verdict       │
 │                                                               │
 │  4. AgentRouter.route(classification, profile, history)       │
 │     ├─ real agent  → agent.analyze() async generator          │
@@ -501,3 +501,7 @@ The current regex guard is fast and interpretable, but it cannot catch semantica
 
 **4. Per-tenant model selection.**
 The `src/llm.py` abstraction already supports swapping providers at startup. The next step is making it per-request: premium users route to `gpt-4.1` / paid Groq tier; free users route to `gpt-4o-mini` / Groq free tier. This requires passing a user-tier flag through the pipeline and updating `make_sync_client` / `make_async_client` to accept an override parameter — a small change with significant cost and quality implications at scale.
+
+
+## commands
+1. py -m uvicorn src.main:app --port 8000
