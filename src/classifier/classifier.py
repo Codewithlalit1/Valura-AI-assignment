@@ -35,11 +35,11 @@ _MAX_HISTORY_TURNS = 6
 # Returned on any failure — safe, routes to human-friendly support agent.
 _FALLBACK = ClassificationResult(
     intent="unknown",
-    agent="support",
+    agent="customer_support",
     entities=ExtractedEntities(),
     safety_verdict="safe",
     confidence=0.0,
-    reasoning="Classification unavailable — defaulting to support.",
+    reasoning="Classification unavailable — defaulting to customer_support.",
 )
 
 
@@ -137,7 +137,7 @@ class IntentClassifier:
 
         # Normalise agent
         if data.get("agent") not in VALID_AGENTS:
-            data["agent"] = "support"
+            data["agent"] = "customer_support"
 
         # Normalise safety_verdict
         if data.get("safety_verdict") not in VALID_SAFETY_VERDICTS:

@@ -19,11 +19,13 @@ VALID_AGENTS: frozenset[str] = frozenset(
         "portfolio_health",
         "market_research",
         "investment_strategy",
+        "financial_planning",
         "financial_calculator",
         "risk_assessment",
-        "portfolio_recommendations",
+        "product_recommendation",
         "predictive_analysis",
-        "support",
+        "customer_support",
+        "general_query",
     ]
 )
 

@@ -80,7 +80,7 @@ async def lifespan(app: FastAPI):  # noqa: ANN001
     provider = get_provider()
     if provider == "none":
         logger.warning(
-            "No API key detected. Set OPENAI_API_KEY or GOOGLE_API_KEY in .env — "
+            "No API key detected. Set OPENAI_API_KEY or GROQ_API_KEY in .env — "
             "LLM calls will fail until a key is present."
         )
     logger.info(

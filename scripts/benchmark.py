@@ -173,7 +173,7 @@ def main() -> None:
     good = [r for r in results if r.error is None]
     errors = [r for r in results if r.error is not None]
 
-    print(f"\n{'─' * 62}")
+    print(f"\n{'-' * 62}")
     print(f"  Completed: {len(good)}/{args.n} requests succeeded"
           + (f", {len(errors)} failed" if errors else ""))
 
@@ -193,13 +193,13 @@ def main() -> None:
     max_trt = max(trts) if trts else 1.0
 
     print(f"\n  {'Metric':<26}  {'p50':>8}  {'p95':>8}")
-    print(f"  {'─' * 26}  {'─' * 8}  {'─' * 8}")
+    print(f"  {'-' * 26}  {'-' * 8}  {'-' * 8}")
     print(f"  {'Time to first token':<26}  {p50_ttft:>7.3f}s  {p95_ttft:>7.3f}s")
     print(f"  {'Total response time':<26}  {p50_trt:>7.3f}s  {p95_trt:>7.3f}s")
 
     if args.verbose and good:
         print(f"\n  {'#':>3}  {'TTFT':>8}  {'TRT':>8}  TRT distribution")
-        print(f"  {'─'*3}  {'─'*8}  {'─'*8}  {'─'*30}")
+        print(f"  {'-'*3}  {'-'*8}  {'-'*8}  {'-'*30}")
         for r in good:
             bar = _bar(r.trt or 0, max_trt)
             print(f"  {r.request_num:>3}  {_fmt(r.ttft)}  {_fmt(r.trt)}  {bar}")

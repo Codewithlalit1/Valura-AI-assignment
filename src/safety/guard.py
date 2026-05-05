@@ -56,6 +56,7 @@ _EDU_OPENER = re.compile(
     r"|why\s+is\b"                  # "why is wash trading illegal"
     r"|is\s+.{1,60}\s+illegal\b"   # "is short selling illegal"
     r"|are\s+.{1,60}\s+legal\b"    # "are pump-and-dump groups legal"
+    r"|is\s+it\s+(?:ever\s+)?(?:legitimate|legal|ethical)\b"  # "is it ever legitimate to advertise..."
     r")",
     re.I,
 )
@@ -128,6 +129,7 @@ _INSIDER_RESPONSE = (
 _MANIPULATION = [
     re.compile(r"\bpump.and.dump\b", re.I),
     re.compile(r"\bpump\b.{0,50}\bdump", re.I | re.DOTALL),          # "pump up ... dump/dumping"
+    re.compile(r"\bpump\s+up\b.{0,40}\bprice\b", re.I | re.DOTALL),  # "pump up the price"
     re.compile(r"\bwash\s+trad", re.I),
     re.compile(r"\bspoof\b", re.I),                                    # spoof/spoofing orders
     re.compile(r"\bcoordinated\b.{0,60}\b(?:buy|buying|purchase|scheme)\b", re.I | re.DOTALL),
@@ -159,7 +161,7 @@ _MANIPULATION_RESPONSE = (
 
 _LAUNDERING = [
     re.compile(r"\bundeclared\b.{0,60}\b(?:cash|funds?|money)\b", re.I | re.DOTALL),
-    re.compile(r"\bwithout\s+triggering\b.{0,50}\breport", re.I | re.DOTALL),
+    re.compile(r"\bwithout\s+(?:triggering\b.{0,50})?report", re.I | re.DOTALL),  # "without reporting it" or "without triggering reporting"
     re.compile(r"\breporting\s+threshold\b", re.I),
     re.compile(r"\bstructure\b.{0,60}\b(?:deposit|cash|payment)\b", re.I | re.DOTALL),
     re.compile(
@@ -244,6 +246,10 @@ _RECKLESS = [
         r"\bmortgage\b.{0,50}\bhouse\b.{0,80}\b(?:invest|stock|trade|buy)\b",
         re.I | re.DOTALL,
     ),
+    re.compile(                                        # inverted order: "which stock to mortgage my house"
+        r"\b(?:stock|crypto|invest)\b.{0,60}\bmortgage\b.{0,60}\b(?:house|home)\b",
+        re.I | re.DOTALL,
+    ),
     re.compile(
         r"\bemergency\s+fund\b.{0,80}\b(?:options?|crypto|meme|all\b|entire|liquidat|0dte)\b",
         re.I | re.DOTALL,
@@ -256,6 +262,7 @@ _RECKLESS = [
     re.compile(r"\b0\s*dte\b", re.I),
     re.compile(r"\badvise\s+me\s+to\s+put\b", re.I),
     re.compile(r"\btell\s+me\s+to\s+(?:take|buy|put|invest)\b", re.I),
+    re.compile(r"\btell\s+me\s+which\s+stock\b.{0,60}\bmortgage\b", re.I | re.DOTALL),
 ]
 
 _RECKLESS_RESPONSE = (
@@ -267,6 +274,47 @@ _RECKLESS_RESPONSE = (
 )
 
 # ---------------------------------------------------------------------------
+# Harmful patterns — sanctions evasion
+# ---------------------------------------------------------------------------
+
+_SANCTIONS = [
+    re.compile(r"\bbypass\b.{0,60}\b(?:OFAC|sanctions?)\b", re.I | re.DOTALL),
+    re.compile(r"\bOFAC\b.{0,60}\b(?:bypass|evade|avoid|circumvent)\b", re.I | re.DOTALL),
+    re.compile(
+        r"\bsanctioned\b.{0,80}\b(?:without\b|invest|buy|trade|untrace)\b",
+        re.I | re.DOTALL,
+    ),
+    re.compile(r"\bevade\b.{0,60}\bsanctions?\b", re.I | re.DOTALL),
+    re.compile(r"\bcircumvent\b.{0,60}\bsanctions?\b", re.I | re.DOTALL),
+]
+
+_SANCTIONS_RESPONSE = (
+    "I can't help with this. Investing in sanctioned entities, routing trades to bypass "
+    "OFAC or equivalent sanctions regimes, or deliberately obscuring ownership to avoid "
+    "sanctions screening are serious criminal offences under US, EU, and UK law. "
+    "The penalties include significant fines and imprisonment. If you have a question "
+    "about sanctions compliance obligations for legitimate investors, I'm happy to discuss that."
+)
+
+# ---------------------------------------------------------------------------
+# Harmful patterns — fraud
+# ---------------------------------------------------------------------------
+
+_FRAUD = [
+    re.compile(r"\bfake\s+(?:contract|invoice|statement|document|note|record|report)\b", re.I),
+    re.compile(r"\bdraft\b.{0,40}\bfake\b.{0,60}\b(?:contract|note|document|invoice|statement)\b", re.I | re.DOTALL),
+    re.compile(r"\bfalsif\w+\b.{0,60}\b(?:record|document|statement|return|report)\b", re.I | re.DOTALL),
+    re.compile(r"\bclaim\s+false\b.{0,60}\b(?:losses?|expense|deduction)\b", re.I | re.DOTALL),
+]
+
+_FRAUD_RESPONSE = (
+    "I can't assist with this. Fabricating financial documents, filing false tax claims, "
+    "or manufacturing records to misrepresent trading activity is fraud — a criminal offence "
+    "with serious civil and criminal penalties. If you have a legitimate question about "
+    "record-keeping or documentation requirements, I can help with that instead."
+)
+
+# ---------------------------------------------------------------------------
 # Category registry — order matters only for priority when patterns from
 # multiple categories fire simultaneously (rare in practice).
 # ---------------------------------------------------------------------------
@@ -274,9 +322,11 @@ _RECKLESS_RESPONSE = (
 _CATEGORIES: list[tuple[str, list[re.Pattern], str]] = [
     ("insider_trading",    _INSIDER,      _INSIDER_RESPONSE),
     ("market_manipulation", _MANIPULATION, _MANIPULATION_RESPONSE),
+    ("sanctions_evasion",  _SANCTIONS,    _SANCTIONS_RESPONSE),
     ("money_laundering",   _LAUNDERING,   _LAUNDERING_RESPONSE),
     ("guaranteed_returns", _GUARANTEED,   _GUARANTEED_RESPONSE),
     ("reckless_advice",    _RECKLESS,     _RECKLESS_RESPONSE),
+    ("fraud",              _FRAUD,        _FRAUD_RESPONSE),
 ]
 
 

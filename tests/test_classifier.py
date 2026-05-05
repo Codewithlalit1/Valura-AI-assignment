@@ -272,7 +272,7 @@ def test_fallback_on_exception(exc: Exception) -> None:
     result = clf.classify("how is my portfolio doing?", [], {})
 
     assert isinstance(result, ClassificationResult), "Fallback must be a ClassificationResult"
-    assert result.agent == "support", "Fallback agent must be 'support'"
+    assert result.agent == "customer_support", "Fallback agent must be 'customer_support'"
     assert result.intent == "unknown", "Fallback intent must be 'unknown'"
     assert result.safety_verdict == "safe", "Fallback safety_verdict must be 'safe'"
     assert result.confidence == 0.0, "Fallback confidence must be 0.0"
@@ -289,12 +289,12 @@ def test_fallback_on_malformed_json() -> None:
     clf = _make_classifier(mock_client)
     result = clf.classify("what's AAPL at?", [], {})
 
-    assert result.agent == "support"
+    assert result.agent == "customer_support"
     assert result.confidence == 0.0
 
 
 def test_fallback_on_unknown_agent() -> None:
-    """If the LLM returns an agent name not in VALID_AGENTS, it is replaced with 'support'."""
+    """If the LLM returns an agent name not in VALID_AGENTS, it is replaced with 'customer_support'."""
     mock_client = MagicMock()
     mock_client.chat.completions.create.return_value = _mock_completion(
         _make_response_content(agent="nonexistent_agent")
@@ -303,7 +303,7 @@ def test_fallback_on_unknown_agent() -> None:
     clf = _make_classifier(mock_client)
     result = clf.classify("test query", [], {})
 
-    assert result.agent == "support"
+    assert result.agent == "customer_support"
 
 
 # ---------------------------------------------------------------------------

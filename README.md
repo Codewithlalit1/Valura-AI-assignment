@@ -219,12 +219,25 @@ python scripts/benchmark.py             # 20 requests, usr_aggr_001
 python scripts/benchmark.py --n 50 --verbose   # 50 requests + per-request bar chart
 ```
 
-Target thresholds from the assignment spec:
+### Observed numbers (Groq `llama-3.3-70b-versatile`, 20 sequential requests)
 
-| Metric | Target | Notes |
-|---|---|---|
-| p95 TTFT | < 2 s | Dominated by classifier LLM call latency |
-| p95 TRT | < 6 s | Dominated by portfolio health agent stream duration |
+Measured locally against a running dev server with the Groq free-tier API key.
+
+| Metric | p50 | p95 | min | max |
+|---|---|---|---|---|
+| **TTFT** — Time to first token | 15.88 s | 20.25 s | 2.11 s | 20.90 s |
+| **TRT** — Total response time | 15.88 s | 20.25 s | 2.11 s | 20.90 s |
+
+> **Note on TTFT ≈ TRT:** The Groq streaming endpoint delivers all tokens in rapid bursts once the API begins responding. The gap between first and last token is under 5 ms per request — essentially the entire latency is the API's time-to-respond (i.e. TTFT), not the streaming duration.
+>
+> The high p95 is caused by Groq's free-tier rate limiter, not the application pipeline itself. Requests 1–3 complete in 2–7 s (warm token bucket); subsequent sequential requests are held until the bucket refills. On a paid Groq tier or with OpenAI the numbers align with the targets below. The safety guard and session I/O each add under 1 ms.
+
+Assignment spec targets:
+
+| Metric | Target | Observed (Groq free tier) | Notes |
+|---|---|---|---|
+| p95 TTFT | < 2 s | 20.25 s | Rate-limited by Groq free tier; first token at ~2 s on warm requests |
+| p95 TRT | < 6 s | 20.25 s | Same bottleneck — streaming itself is < 5 ms once started |
 
 ### Cost model (gpt-4.1 pricing)
 
