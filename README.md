@@ -1,5 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/SHM9MYZJ)
 
+## YOUTUBE VIDEO LINK :  https://youtu.be/yipJ7ku19os
+
 # Valura AI
 
 Valura AI is a FastAPI microservice that acts as an AI co-investor for every user on the Valura wealth management platform. It accepts a natural-language query together with the user's profile and conversation history, classifies the intent with a single LLM call, routes the request to the appropriate specialist agent, and streams the response token-by-token over Server-Sent Events.
